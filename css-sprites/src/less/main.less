@@ -1,0 +1,27 @@
+@import 'https://dl.dropboxusercontent.com/u/16252882/kno-web-lib/kwl/less/lib/mixins.less';
+@import 'sprite';
+
+.ryu {
+  .sprite(80px, 104px);
+
+  > .arms-up {
+    display: none;
+    .sprite-anim(80px, 104px, 14, 1s, ryu-arms-up, 'assets/ryu.arms.up.png');
+  }
+  > .iddle {
+    display: none;
+    .sprite-anim(80px, 104px, 2, 0.4s, ryu-iddle, 'assets/ryu.iddle.png');
+  }
+
+  &.anim-iddle {
+    > .iddle {
+      display: block;
+    }
+  }
+
+  &.anim-arms-up {
+    > .arms-up {
+      display: block;
+    }
+  }
+}

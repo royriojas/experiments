@@ -1,0 +1,33 @@
+
+.sprite-anim(@sprite-width: 80px,
+  @sprite-height: 104px, 
+  @sprite-frames: 14, 
+  @duration: 1s,
+  @anim-name : frame-animation, 
+  @image-url:'https://dl.dropboxusercontent.com/u/16252882/resources/ryu-sprite1.png?x') {
+  @image-width: @sprite-frames * @sprite-width;
+  @image-max-displacement : -1 * @image-width;
+
+  height: @sprite-height;
+  width: @image-width;
+  position: absolute;
+  top:0;
+  left:0;
+  background: url("@{image-url}") no-repeat left top;
+  animation: @anim-name @duration steps(@sprite-frames) infinite;
+  -webkit-animation: @anim-name @duration steps(@sprite-frames) infinite;
+  .backface-visibility(hidden);
+  -anim-name: @anim-name @image-max-displacement;
+
+
+}
+
+
+
+.sprite(@sprite-width, @sprite-height) {
+  width: @sprite-width;
+  height: @sprite-height;
+  overflow: hidden;
+  display: inline-block;
+  position: absolute;
+}
