@@ -10,7 +10,6 @@
 
   height: @sprite-height;
   width: @image-width;
-  position: absolute;
   top:0;
   left:0;
   background: url("@{image-url}") no-repeat left top;
@@ -18,8 +17,6 @@
   -webkit-animation: @anim-name @duration steps(@sprite-frames) infinite;
   .backface-visibility(hidden);
   -anim-name: @anim-name @image-max-displacement;
-
-
 }
 
 
