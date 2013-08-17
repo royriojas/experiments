@@ -130,19 +130,30 @@ module.exports = function(grunt) {
 
             animationTemplateFn = animationTemplateFn || doT.template(gruntFile.read(animationTemplatePath));
 
+            var regexEmCalc = /\bem-calc\((.*)\)/g;
+
+            content = content.replace(regexEmCalc, function (a,b) {
+              var number = parseFloat(b);
+              if (!isNaN(number)) {
+                return lib.format('{0}em',number/16);
+              }
+              throw new Error("em-calc expects a number!");
+            });
+
+
             var regexPseudoRule = /-anim-name:(.*);/gi;
             //var matches = content.match(regexPseudoRule);
             //console.log(matches);
-            var animationsTocreate = [];
+            var animationsToCreate = [];
             var freeContent = content.replace(regexPseudoRule, function (a, b) {
-              animationsTocreate.push(b);
+              animationsToCreate.push(b);
               return lib.format('/*{0}*/', a);
             });
 
             var renderedContent = '/*! ANIMATIONS */\n\n';
 
-            for (var i = 0, len = animationsTocreate.length; i < len; i++) {
-              var anim = lib.trim(animationsTocreate[i]).split(' ');
+            for (var i = 0, len = animationsToCreate.length; i < len; i++) {
+              var anim = lib.trim(animationsToCreate[i]).split(' ');
 
               // TODO: add proper parsing of the values
               if (anim.length !== 2) {
@@ -157,10 +168,7 @@ module.exports = function(grunt) {
               renderedContent += animationTemplateFn(obj);
             }
 
-
-
             return freeContent + renderedContent;
-
           }
         }
       },

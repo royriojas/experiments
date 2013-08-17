@@ -1,6 +1,24 @@
 @import 'https://dl.dropboxusercontent.com/u/16252882/kno-web-lib/kwl/less/lib/mixins.less';
 @import 'sprite';
 
+html, body, .main-container {
+  width: 100%;
+  height: 100%;
+  font-size: em-calc(12px);
+}
+
+#title-screen {
+  .center-element(1024px, 768px);
+}
+
+#mountains {
+  .size(1024px, 768px);
+  background: url(assets/title-mg.png) no-repeat;
+  .background-size(cover);
+  position: absolute;
+  bottom: 0;
+}
+
 .ryu {
   .sprite(80px, 104px);
   position: relative;
