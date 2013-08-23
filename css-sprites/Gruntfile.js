@@ -116,6 +116,20 @@ module.exports = function(grunt) {
     },
     cLess: {},
 
+    autoprefixer: {
+      options: {
+        browsers: ['last 1 version']
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: './dist/',
+          src: '{,*/}*.css',
+          dest: './dist/'
+        }]
+      }
+    },
+
     copy: {
 
       prefixAnim : {
@@ -274,9 +288,10 @@ module.exports = function(grunt) {
     "grunt-contrib-uglify",
     "grunt-contrib-watch",
     "grunt-contrib-cssmin",
-    'grunt-contrib-copy',
-    'grunt-contrib-qunit',
-    "grunt-contrib-htmlmin"
+    "grunt-contrib-copy",
+    "grunt-contrib-qunit",
+    "grunt-contrib-htmlmin",
+    "grunt-autoprefixer"
   ];
 
   npmTasks.forEach(function(task) {
@@ -298,7 +313,7 @@ module.exports = function(grunt) {
     },
 
     'js': ["jshint", "preprocess", "uglify"],
-    'css': ['cLess', 'copy:prefixAnim', 'cssmin'],
+    'css': ['cLess', 'autoprefixer', 'copy:prefixAnim', 'cssmin'],
     'dev-build': ['validate-templates', 'clean', 'banner', 'css', 'js'],
     'dev' : ['dev-build', 'copy:dev'],
     'prod' : ['dev-build', 'copy:prod'],

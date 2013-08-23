@@ -14,8 +14,9 @@
   left:0;
   background: url("@{image-url}") no-repeat left top;
   animation: @anim-name @duration steps(@sprite-frames) infinite;
-  -webkit-animation: @anim-name @duration steps(@sprite-frames) infinite;
-  .backface-visibility(hidden);
+  //-webkit-animation: @anim-name @duration steps(@sprite-frames) infinite;
+  //.backface-visibility(hidden);
+  backface-visibility:hidden;
   -anim-name: @anim-name @image-max-displacement;
 }
 
