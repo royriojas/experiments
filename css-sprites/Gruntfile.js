@@ -154,24 +154,33 @@ module.exports = function(grunt) {
               throw new Error("em-calc expects a number!");
             });
 
+            var animNamePattern = 'gen-anim-';
 
             var regexPseudoRule = /-anim-name:(.*);/gi;
             //var matches = content.match(regexPseudoRule);
             //console.log(matches);
             var animationsToCreate = [];
             var freeContent = content.replace(regexPseudoRule, function (a, b) {
-              animationsToCreate.push(b);
-              return lib.format('/*{0}*/', a);
+              var params = lib.trim(b).split(' ');
+              var animName = animNamePattern + (animationsToCreate.length);
+              params.unshift(animName);
+              console.log(params);
+
+              var animRule = lib.format.apply(lib, ['animation: {0} {2} {3} {4};\n'].concat(params));
+
+              animationsToCreate.push(params);
+
+              return lib.format('/*{0}*/\n{1}', a, animRule);
             });
 
             var renderedContent = '/*! ANIMATIONS */\n\n';
 
             for (var i = 0, len = animationsToCreate.length; i < len; i++) {
-              var anim = lib.trim(animationsToCreate[i]).split(' ');
+              var anim = animationsToCreate[i];
 
               // TODO: add proper parsing of the values
-              if (anim.length !== 2) {
-                throw new Error('missing proper parameters');
+              if (anim.length !== 5) {
+                throw new Error('The number of parameters to create the animation are wrong');
               }
 
               var obj = {
@@ -277,6 +286,36 @@ module.exports = function(grunt) {
         ],
         tasks: 'js'
       }
+    },
+
+    spriteGenerator: {
+      'avatar-idle' : {
+        src: [
+          BASE_SOURCE_DIR + './img/avatar/idle/*.png'
+        ],
+        layout : 'horizontal',
+        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-idle.png',
+        stylesheet : 'css',
+        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-idle.css'
+      },
+      'avatar-walk-right' : {
+        src: [
+          BASE_SOURCE_DIR + './img/avatar/walk-right/*.png'
+        ],
+        layout: 'horizontal',
+        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-right.png',
+        stylesheet: 'css',
+        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-right.css'
+      }
+    },
+
+    exec : {
+      prebuild : {
+        command: 'mkdir -p src/less/assets/generated',
+        stdout: true,
+        stderr: true,
+        failOnError: true
+      }
     }
   };
 
@@ -291,7 +330,8 @@ module.exports = function(grunt) {
     "grunt-contrib-copy",
     "grunt-contrib-qunit",
     "grunt-contrib-htmlmin",
-    "grunt-autoprefixer"
+    "grunt-autoprefixer",
+    "node-sprite-generator"
   ];
 
   npmTasks.forEach(function(task) {
@@ -313,8 +353,8 @@ module.exports = function(grunt) {
     },
 
     'js': ["jshint", "preprocess", "uglify"],
-    'css': ['cLess', 'autoprefixer', 'copy:prefixAnim', 'cssmin'],
-    'dev-build': ['validate-templates', 'clean', 'banner', 'css', 'js'],
+    'css': ['cLess', 'copy:prefixAnim', 'autoprefixer', 'cssmin'],
+    'dev-build': ['validate-templates', 'clean', 'exec:prebuild', 'spriteGenerator', 'banner', 'css', 'js'],
     'dev' : ['dev-build', 'copy:dev'],
     'prod' : ['dev-build', 'copy:prod'],
     'default': ['dev']

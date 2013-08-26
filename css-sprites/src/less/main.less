@@ -11,12 +11,30 @@ html, body, .main-container {
   .center-element(1024px, 768px);
 }
 
-#mountains {
-  .size(1024px, 768px);
-  background: url(assets/title-mg.png) no-repeat;
-  background-size:cover;
-  position: absolute;
-  bottom: 0;
+#avatar-female {
+  .sprite(172px, 300px);
+
+  > .idle {
+    display: none;
+    .sprite-anim(172px, 300px, 16, 1.5s, 'assets/generated/avatar-idle.png');
+  }
+
+  > .walk-right {
+    display: none;
+    .sprite-anim(172px, 300px, 16, 1s, 'assets/generated/avatar-walk-right.png');
+  }
+
+  &.anim-idle {
+    > .idle {
+      display: block;
+    }
+  }
+
+  &.anim-walk-right {
+    > .walk-right {
+      display: block;
+    }
+  }
 }
 
 .ryu {
@@ -25,15 +43,15 @@ html, body, .main-container {
   display: inline-block;
   > .arms-up {
     display: none;
-    .sprite-anim(80px, 104px, 14, 1s, ryu-arms-up, 'assets/ryu.arms.up.png');
+    .sprite-anim(80px, 104px, 14, 1s, 'assets/ryu.arms.up.png');
   }
-  > .iddle {
+  > .idle {
     display: none;
-    .sprite-anim(80px, 104px, 2, 0.4s, ryu-iddle, 'assets/ryu.iddle.png');
+    .sprite-anim(80px, 104px, 2, 0.4s, 'assets/ryu.iddle.png');
   }
 
-  &.anim-iddle {
-    > .iddle {
+  &.anim-idle {
+    > .idle {
       display: block;
     }
   }

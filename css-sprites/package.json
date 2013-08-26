@@ -20,6 +20,7 @@
     "dot": ">=1.0.1",
     "cheerio": "~0.12.1",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-autoprefixer": "~0.2.20130806"
+    "grunt-autoprefixer": "~0.2.20130806",
+    "node-sprite-generator": "~0.1.0"
   }
 }
