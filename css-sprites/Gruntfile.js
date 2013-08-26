@@ -306,7 +306,17 @@ module.exports = function(grunt) {
         spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-right.png',
         stylesheet: 'css',
         stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-right.css'
+      },
+      'avatar-cape': {
+        src: [
+          BASE_SOURCE_DIR + './img/avatar/cape/*.png'
+        ],
+        layout: 'horizontal',
+        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-cape.png',
+        stylesheet: 'css',
+        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-cape.css'
       }
+
     },
 
     exec : {

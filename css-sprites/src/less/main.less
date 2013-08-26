@@ -37,6 +37,21 @@ html, body, .main-container {
   }
 }
 
+#avatar-cape {
+  .sprite(150px, 190px);
+
+  > .idle {
+     display: none;
+    .sprite-anim(150px, 190px, 9, 1.5s, 'assets/generated/avatar-cape.png');
+  }
+
+  &.anim-idle {
+    > .idle {
+      display: block;
+    }
+  }
+}
+
 .ryu {
   .sprite(80px, 104px);
   position: relative;
