@@ -5,6 +5,7 @@ html, body, .main-container {
   width: 100%;
   height: 100%;
   font-size: em-calc(12px);
+  background: #000;
 }
 
 #title-screen {
@@ -24,6 +25,16 @@ html, body, .main-container {
     .sprite-anim(172px, 300px, 16, 1s, 'assets/generated/avatar-walk-right.png');
   }
 
+  > .walk-left {
+    display: none;
+    .sprite-anim(172px, 300px, 16, 1s, 'assets/generated/avatar-walk-left.png');
+  }
+
+  > .walk-forward {
+    display: none;
+    .sprite-anim(172px, 300px, 16, 1s, 'assets/generated/avatar-walk-forward.png');
+  }
+
   &.anim-idle {
     > .idle {
       display: block;
@@ -35,6 +46,17 @@ html, body, .main-container {
       display: block;
     }
   }
+  &.anim-walk-left {
+    > .walk-left {
+      display: block;
+    }
+  }
+  &.anim-walk-forward {
+    > .walk-forward {
+      display: block;
+    }
+  }
+
 }
 
 #avatar-cape {

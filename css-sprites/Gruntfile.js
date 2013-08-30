@@ -289,33 +289,51 @@ module.exports = function(grunt) {
     },
 
     spriteGenerator: {
-      'avatar-idle' : {
-        src: [
-          BASE_SOURCE_DIR + './img/avatar/idle/*.png'
-        ],
-        layout : 'horizontal',
-        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-idle.png',
-        stylesheet : 'css',
-        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-idle.css'
-      },
-      'avatar-walk-right' : {
-        src: [
-          BASE_SOURCE_DIR + './img/avatar/walk-right/*.png'
-        ],
-        layout: 'horizontal',
-        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-right.png',
-        stylesheet: 'css',
-        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-right.css'
-      },
-      'avatar-cape': {
-        src: [
-          BASE_SOURCE_DIR + './img/avatar/cape/*.png'
-        ],
-        layout: 'horizontal',
-        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-cape.png',
-        stylesheet: 'css',
-        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-cape.css'
-      }
+//      'avatar-idle' : {
+//        src: [
+//          BASE_SOURCE_DIR + 'image-sequences/avatar/idle/*.png'
+//        ],
+//        layout : 'horizontal',
+//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-idle.png',
+//        stylesheet : 'css',
+//        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-idle.css'
+//      },
+//      'avatar-walk-right' : {
+//        src: [
+//          BASE_SOURCE_DIR + 'image-sequences/avatar/walk-right/*.png'
+//        ],
+//        layout: 'horizontal',
+//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-right.png',
+//        stylesheet: 'css',
+//        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-right.css'
+//      },
+//      'avatar-walk-left': {
+//        src: [
+//          BASE_SOURCE_DIR + 'image-sequences/avatar/walk-left/*.png'
+//        ],
+//        layout: 'horizontal',
+//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-left.png',
+//        stylesheet: 'css',
+//        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-left.css'
+//      },
+//      'avatar-walk-forward': {
+//        src: [
+//          BASE_SOURCE_DIR + 'image-sequences/avatar/walk-forward/*.png'
+//        ],
+//        layout: 'horizontal',
+//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-forward.png',
+//        stylesheet: 'css',
+//        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-forward.css'
+//      },
+//      'avatar-cape': {
+//        src: [
+//          BASE_SOURCE_DIR + 'image-sequences/avatar/cape/*.png'
+//        ],
+//        layout: 'horizontal',
+//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-cape.png',
+//        stylesheet: 'css',
+//        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-cape.css'
+//      }
 
     },
 
@@ -350,11 +368,59 @@ module.exports = function(grunt) {
 
   grunt.initConfig(cfg);
 
+  var IMAGE_SEQUENCES_DIR = BASE_SOURCE_DIR + 'image-sequences/';
+  var OUTPUT_SEQUENCES_DIR = BASE_SOURCE_DIR + 'less/assets/generated/';
+
+  var getDirsUnderPath = function (p) {
+    var folders = gruntFile.expand(path.join(p, '*')).filter(function (entry) {
+      return gruntFile.isDir(entry);
+    });
+    return folders;
+  };
+
+  var getAnimGroups = function (p) {
+    var folders = getDirsUnderPath(p);
+    var animGroups = folders.map(function (ele) {
+      return {
+        name: path.basename(ele),
+        animations: getDirsUnderPath(ele).map(function (animDir) {
+          return { name : path.basename(animDir), path : animDir };
+        })
+      };
+    });
+    return animGroups;
+  };
+
+  gruntTaskUtils.createSpriteAnimations = function (cfg, imageSequencesPath, outputSequencesPath) {
+    var animGroups = getAnimGroups(imageSequencesPath);
+    animGroups.forEach(function (ele){
+      var animations = ele.animations;
+      if (animations) {
+        var prefix = ele.name;
+        animations.forEach(function (sprite) {
+          var taskName = lib.format('{0}-{1}', prefix, sprite.name);
+          var spriteGenerator = cfg.spriteGenerator || (cfg.spriteGenerator = {});
+          spriteGenerator[taskName] = {
+            src : [path.join(sprite.path + '/*.png')],
+            layout : 'horizontal',
+            spritePath : path.join(outputSequencesPath, taskName + '.png'),
+            stylesheet: 'css',
+            stylesheetPath: path.join(outputSequencesPath, taskName + '.css')
+          };
+        });
+      }
+    });
+  };
+
+  gruntTaskUtils.createSpriteAnimations(cfg, IMAGE_SEQUENCES_DIR, OUTPUT_SEQUENCES_DIR);
   gruntTaskUtils.createJSAndCSSTasks(cfg, filesToProcess);
 
   var tasksDefinition = {
     'banner': function() {
       gruntFile.write(bannerOuputPath, grunt.config('meta.banner'));
+    },
+    'create-sprites' : function () {
+      gruntTaskUtils.createSpriteAnimations(cfg, IMAGE_SEQUENCES_DIR, OUTPUT_SEQUENCES_DIR);
     },
 
     'validate-templates': function() {
