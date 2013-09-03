@@ -8,8 +8,9 @@ html, body, .main-container {
   background: #000;
 }
 
-#title-screen {
-  .center-element(1024px, 768px);
+.main-container {
+  max-width: 1365px;
+  max-height: 768px;
 }
 
 #avatar-female {
@@ -60,11 +61,11 @@ html, body, .main-container {
 }
 
 #avatar-cape {
-  .sprite(150px, 190px);
+  .sprite(249px, 332px);
 
   > .idle {
      display: none;
-    .sprite-anim(150px, 190px, 9, 1.5s, 'assets/generated/avatar-cape.png');
+    .sprite-anim(249px, 332px, 10, 1.5s, 'assets/generated/avatar-cape.png');
   }
 
   &.anim-idle {
