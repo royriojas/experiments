@@ -2,6 +2,7 @@ module.exports = function(grunt) {
   'use strict';
 
   var path = require('path'),
+    mkdirp = require('mkdirp'),
     lib = require('grunt-r3m/lib/lib.js'),
     pkg = require('./package.json'),
     verbose = grunt.verbose,
@@ -397,16 +398,21 @@ module.exports = function(grunt) {
       var animations = ele.animations;
       if (animations) {
         var prefix = ele.name;
-        animations.forEach(function (sprite) {
-          var taskName = lib.format('{0}-{1}', prefix, sprite.name);
-          var spriteGenerator = cfg.spriteGenerator || (cfg.spriteGenerator = {});
-          spriteGenerator[taskName] = {
-            src : [path.join(sprite.path + '/*.png')],
-            layout : 'horizontal',
-            spritePath : path.join(outputSequencesPath, taskName + '.png'),
-            stylesheet: 'css',
-            stylesheetPath: path.join(outputSequencesPath, taskName + '.css')
-          };
+        var oPath = path.join(outputSequencesPath, prefix);
+        console.log('o', oPath);
+        mkdirp(oPath, function (err) {
+          console.log(err);
+          animations.forEach(function (sprite) {
+            var taskName = lib.format('{0}-{1}', prefix, sprite.name);
+            var spriteGenerator = cfg.spriteGenerator || (cfg.spriteGenerator = {});
+            spriteGenerator[taskName] = {
+              src: [path.join(sprite.path + '/*.png')],
+              layout: 'horizontal',
+              spritePath: path.join(oPath, taskName + '.png'),
+              stylesheet: 'css',
+              stylesheetPath: path.join(oPath, taskName + '.css')
+            };
+          });
         });
       }
     });
