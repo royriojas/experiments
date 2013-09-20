@@ -294,7 +294,7 @@ module.exports = function(grunt) {
 //          BASE_SOURCE_DIR + 'image-sequences/avatar/idle/*.png'
 //        ],
 //        layout : 'horizontal',
-//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-idle.png',
+//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/a vatar-idle.png',
 //        stylesheet : 'css',
 //        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-idle.css'
 //      },
