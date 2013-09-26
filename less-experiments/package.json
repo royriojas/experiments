@@ -1,0 +1,7 @@
+{
+  "name": "less-experiments",
+  "devDependencies": {
+    "less": "~1.4.2",
+    "grunt": "~0.4.1"
+  }
+}

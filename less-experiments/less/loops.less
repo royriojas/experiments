@@ -1,0 +1,11 @@
+.span(@some) {
+  some:value;
+}
+
+.spanX (@index) when (@index > 0) {
+  .span@{index} { .span(@index); }
+  .spanX(@index - 1);
+}
+.spanX (0) {}
+
+.spanX (10);

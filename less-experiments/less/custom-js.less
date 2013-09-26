@@ -1,0 +1,7 @@
+.background(@path) {
+  background-image: ~`(function(){ var protocol = "http://"; var domain = ".mydomain.com"; var N = 4; var sum = 0; var s = @{path}.substr(@{path}.lastIndexOf("/") + 1); for (var i = 0; i < s.length; i++) { sum += s[i].charCodeAt(); } return "url(" + protocol + (sum % N) + domain + @{path} + ")";})()`;
+}
+.myItem {
+  -demo: demo();
+  .background("/images/background.jpg");
+}
