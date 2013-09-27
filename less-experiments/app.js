@@ -4,11 +4,11 @@ var path = require('path');
 var files = grunt.file.expand('./less/**/*.less');
 
 less.tree.functions.demo = function () {
-  console.log('arguments',arguments, this);
-  return { toCSS : function () {  console.log('toCSS',arguments, this); return 'demo here'; }};
+  //console.log('arguments',arguments, this);
+  return { toCSS : function () { return 'demo here'; }};
 };
 
-console.log(less);
+//console.log(less);
 
 files.forEach(function (file) {
   var parser = new less.Parser({

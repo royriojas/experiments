@@ -1,30 +1,33 @@
-.span10 {
-  some: value;
+.galaxy.progress-100 {
+  background-position: -1;
 }
-.span9 {
-  some: value;
+.galaxy.progress-90 {
+  background-position: -1;
 }
-.span8 {
-  some: value;
+.galaxy.progress-80 {
+  background-position: -1;
 }
-.span7 {
-  some: value;
+.galaxy.progress-70 {
+  background-position: -1;
 }
-.span6 {
-  some: value;
+.galaxy.progress-60 {
+  background-position: -1;
 }
-.span5 {
-  some: value;
+.galaxy.progress-50 {
+  background-position: -1;
 }
-.span4 {
-  some: value;
+.galaxy.progress-40 {
+  background-position: -1;
 }
-.span3 {
-  some: value;
+.galaxy.progress-30 {
+  background-position: -1;
 }
-.span2 {
-  some: value;
+.galaxy.progress-20 {
+  background-position: -1;
 }
-.span1 {
-  some: value;
+.galaxy.progress-10 {
+  background-position: -1;
+}
+.galaxy .progress-0 {
+  background-position: -1;
 }

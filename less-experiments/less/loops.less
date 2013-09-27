@@ -1,11 +1,31 @@
-.span(@some) {
-  some:value;
+.calculate-progress(@value) {
+  background-position: -1 * 
+}
+ 
+.set-progress-at(@value) when (@value > 0) {
+  &.progress-@{value} { 
+    .calculate-progress(@value) 
+  }
+  .set-progress-at(@value - 10);
 }
 
-.spanX (@index) when (@index > 0) {
-  .span@{index} { .span(@index); }
-  .spanX(@index - 1);
+.set-progress-at(0) {
+  &.progress-0 {
+    .calculate-progress(0);
+  }
 }
-.spanX (0) {}
 
-.spanX (10);
+.galaxy{
+  .set-progress-at(100);  
+}
+
+
+
+// .spanX (@value) when (@value > 0) {
+//   .span@{value} { .span(@value); }
+//   .spanX(@value - 1);
+// }
+// .spanX (0) {}
+
+// .spanX (10);
+//
