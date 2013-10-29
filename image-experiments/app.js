@@ -1,3 +1,5 @@
+'use strict';
+
 var gmLib = require('gm'),
   fs = require('fs'),
   lib = require('grunt-ez-frontend/lib/lib.js'),
@@ -5,45 +7,42 @@ var gmLib = require('gm'),
   mkdirp = require('mkdirp'),
   grunt = require('grunt'),
   async = require('async'),
-  Deferred = require( "JQDeferred" );
+  Deferred = require( "JQDeferred" ),
+  gm = gmLib.subClass({ imageMagick : true });
 
 
-gm = gmLib.subClass({ imageMagick : true });
 
-var doResize = function (imagePath, outputFolder, relativePath, size) {
+var doResize = function (imagePath, opts) {
   
-  var imgStream = fs.createReadStream(imagePath),
-    dfd = Deferred();
+  var dfd = Deferred();
 
-  size = lib.trim(size);
-  if (!size.match(/\bmedium\b|\bsmall\b/)) {
-    throw new Error('Not a valid size. Choose medium or small');
-  }
-  var sizeInPercentage = 50, sizeInText = '_s_';
+  async.each(opts.sizes, function (size, cb) {
+    var 
+      imgStream = fs.createReadStream(imagePath),
+      basename = path.basename(imagePath),
+      sizeInText = lib.format('_{0}_', size),
+      outputPath = path.join(opts.outputFolder, 
+        sizeInText, 
+        path.relative(opts.relativePath, imagePath)
+      );
 
-  if (size === 'medium') {
-    sizeInPercentage = 75;
-    sizeInText = '_m_';
-  } 
-  var basename = path.basename(imagePath);
+    mkdirp(path.dirname(outputPath), function (err) {
+      if (err) {
+        throw err;
+      }
 
-  var outputPath = path.join(outputFolder, sizeInText, path.relative(relativePath, imagePath));
+      gm(imgStream, basename)
+        .resize(size, size, '%')
+        .write(outputPath, function (err) {
+          if (err) {
+            throw err;
+          }
+          cb && cb();
+        });
 
-  mkdirp(path.dirname(outputPath), function (err) {
-
-    if (err) {
-      console.error('err', err);
-    }
-
-    gm(imgStream, basename)
-      .resize(sizeInPercentage, sizeInPercentage, '%')
-      .write(outputPath, function (err) {
-        if (err) {
-          console.error('err: ', err);
-        }
-        dfd.resolve();
-      });
-
+    });
+  }, function () {
+    dfd.resolve();
   });
 
   return dfd.promise();
@@ -51,19 +50,23 @@ var doResize = function (imagePath, outputFolder, relativePath, size) {
 
 var imageResizer = {
   
-	resize: function (imagePath, outputFolder, relativePath, cb) {
+	resize: function (imagePath, opts) {
    
-    var d1 = doResize(imagePath, outputFolder, relativePath, 'medium');
-    var d2 = doResize(imagePath, outputFolder, relativePath, 'small');
-
-    Deferred.when(d1,d2).then(cb);
+    return doResize(imagePath, opts);
     
 	},
 
-  process : function (files, outputFolder, relativePath, limit) {
-    async.eachLimit(files, limit || 25, function (file, cb) {
+  process : function (files, options) {
+    var opts = {
+      maxConcurrent : 25
+    };
+
+    lib.extend(opts, options);
+
+    async.eachLimit(files, opts.maxConcurrent, function (file, cb) {
       //console.log('resizing file : ', file);
-      imageResizer.resize(file, outputFolder, relativePath, cb);  
+      imageResizer.resize(file, opts).done(cb);
+
     }, function () {
       console.log('done!');
     });
@@ -73,5 +76,10 @@ var imageResizer = {
 
 var files = grunt.file.expand('./some/path/assets/**/*{.png,.gif,.jpg}');
 
-imageResizer.process(files, './some/path/g_assets', './some/path/assets', 30);
+imageResizer.process(files, {
+  outputFolder : './some/path/g_assets', 
+  relativePath : './some/path/assets', 
+  maxConcurrent : 20,
+  sizes : [25, 50, 75]
+});
 
