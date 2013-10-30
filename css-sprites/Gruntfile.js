@@ -290,51 +290,6 @@ module.exports = function(grunt) {
     },
 
     spriteGenerator: {
-//      'avatar-idle' : {
-//        src: [
-//          BASE_SOURCE_DIR + 'image-sequences/avatar/idle/*.png'
-//        ],
-//        layout : 'horizontal',
-//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/a vatar-idle.png',
-//        stylesheet : 'css',
-//        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-idle.css'
-//      },
-//      'avatar-walk-right' : {
-//        src: [
-//          BASE_SOURCE_DIR + 'image-sequences/avatar/walk-right/*.png'
-//        ],
-//        layout: 'horizontal',
-//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-right.png',
-//        stylesheet: 'css',
-//        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-right.css'
-//      },
-//      'avatar-walk-left': {
-//        src: [
-//          BASE_SOURCE_DIR + 'image-sequences/avatar/walk-left/*.png'
-//        ],
-//        layout: 'horizontal',
-//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-left.png',
-//        stylesheet: 'css',
-//        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-left.css'
-//      },
-//      'avatar-walk-forward': {
-//        src: [
-//          BASE_SOURCE_DIR + 'image-sequences/avatar/walk-forward/*.png'
-//        ],
-//        layout: 'horizontal',
-//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-forward.png',
-//        stylesheet: 'css',
-//        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-walk-forward.css'
-//      },
-//      'avatar-cape': {
-//        src: [
-//          BASE_SOURCE_DIR + 'image-sequences/avatar/cape/*.png'
-//        ],
-//        layout: 'horizontal',
-//        spritePath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-cape.png',
-//        stylesheet: 'css',
-//        stylesheetPath: BASE_SOURCE_DIR + 'less/assets/generated/avatar-cape.css'
-//      }
 
     },
 
