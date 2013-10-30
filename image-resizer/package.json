@@ -1,5 +1,5 @@
 {
-  "name": "image-experiments",
+  "name": "image-resizer",
   "devDependencies": {
     "grunt": "~0.4.1",
     "gm": "~1.13.3",
